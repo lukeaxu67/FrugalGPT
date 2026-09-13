@@ -251,6 +251,7 @@ $$
 | Q4 | 目标对 τ 的阶梯函数性质：推导、图解、"没有梯度"的后果 | [Q4_step_function.md](qa/Q4_step_function.md)（含[插图](qa/figures/Q4_step_function.png)） | 已解决 |
 | Q5 | 论文 τ 是成功概率门限、代码 τ 是失败概率门限（语义翻转） | [Q5_tau_semantics.md](qa/Q5_tau_semantics.md) | 已解决 |
 | Q6 | quantile 网格的真正作用、alive 集合、粗细网格分工、单纯形（含基础补丁） | [Q6_quantile_grid_alive_simplex.md](qa/Q6_quantile_grid_alive_simplex.md) | 已解决 |
+| Q7 | 级联能否超过最强单模型？——b≈0.024~0.032 时双轴全胜 C（无约束 0.9295@0.0275 vs C 0.9270@0.0359） | [Q7_beat_best_single_model.md](qa/Q7_beat_best_single_model.md) | 已解决 |
 
 > **记录规则**：每个新问题新建 `analysis/qa/Q<n>_<slug>.md`，模板固定为：
 > 问题原文 / 结论 TL;DR / 详细分析 / 代码证据（文件:行号）/ 论文证据（main.tex 行号 + 原文）/
