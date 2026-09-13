@@ -1,0 +1,180 @@
+%\usepackage[utf8]{inputenc} % allow utf-8 input
+%\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+%\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % for professional tables
+\usepackage{amsthm,amsmath,amssymb}
+%\usepackage{graphicx,xspace,verbatim,comment}
+%\usepackage{array,color,multirow}
+%\usepackage{balance,float,url,amsfonts,alltt}
+\usepackage{float,url,amsfonts,alltt}
+\usepackage{mathtools,rotating}
+\usepackage{ifpdf,fancyvrb}
+\usepackage{enumitem}
+%\usepackage{algorithm,algpseudocode}
+%\usepackage{etoolbox,listings,subcaption}
+%\usepackage{bigstrut,morefloats}
+%\usepackage[boxruled]{algorithm2e}
+%\usepackage{pbox}
+%\usepackage{thm-restate}
+%\usepackage{todonotes}
+%\usepackage[boxruled]{algorithm2e}
+%\usepackage{pbox}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs} % for professional tables
+\usepackage{hyperref}
+
+\usepackage{graphicx,xspace,verbatim,comment}
+\usepackage{hyperref,array,color,balance,multirow}
+\usepackage{balance,float,url,amsfonts,alltt}
+\usepackage{mathtools,rotating,amsmath,amssymb}
+\usepackage{color,ifpdf,fancyvrb,array}
+% \usepackage{algorithm,algpseudocode}
+\usepackage{etoolbox,listings}
+%\usepackage{subcaption}
+\usepackage{bigstrut,morefloats}
+
+%\usepackage[boxruled]{algorithm2e}
+\usepackage{pbox}
+%\usepackage{natbib}
+%\usepackage[boxruled,algo2e]{algorithm2e}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclarePairedDelimiterX{\inp}[2]{\langle}{\rangle}{#1, #2}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}{Definition}
+\newcommand{\eat}[1]{}
+
+\newcommand{\gaussian}[2]{\mathcal{N}(#1,#2)}
+
+
+\newcommand{\sgn}{\operatorname{sign}}
+\newcommand{\indi}{\mathds{1}}
+\newcommand{\ie}{{\emph i.e.,} }
+\newcommand{\eg}{{\it e.g.}, }
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\R}{\mathbb{R}}
+%\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\card}{\operatorname{card}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\cov}{\operatorname{Cov}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\vecx}{\mathbf{x}}
+\newcommand{\vecw}{\mathbf{w}}
+\newcommand{\vecwb}{\mathbf{w}}
+\newcommand{\tvecw}{\widetilde{\mathbf{w}}}
+\newcommand{\tvecwb}{\widetilde{\mathbf{w}}}
+\newcommand{\vecv}{\mathbf{v}}
+\newcommand{\ovecv}{\overline{\mathbf{v}}}
+\newcommand{\vecy}{\mathbf{y}}
+\newcommand{\vecg}{\mathbf{g}}
+\newcommand{\vecr}{\mathbf{r}}
+\newcommand{\veca}{\mathbf{a}}
+\newcommand{\vecb}{\mathbf{b}}
+\newcommand{\vecn}{\mathbf{n}}
+\newcommand{\vece}{\mathbf{e}}
+\newcommand{\vecz}{\mathbf{z}}
+\newcommand{\tvecz}{\widetilde{\mathbf{z}}}
+\newcommand{\matA}{\mathbf{A}}
+\newcommand{\matP}{\mathbf{P}}
+\newcommand{\matD}{\mathbf{D}}
+\newcommand{\matX}{\mathbf{X}}
+\newcommand{\gradf}{\nabla f}
+\newcommand{\tf}{\widetilde{f}}
+\newcommand{\gradtf}{\nabla \widetilde{f}}
+\newcommand{\gradF}{\nabla F}
+\newcommand{\HW}{\textsc{Hogwild!}}
+\newcommand{\setS}{\mathcal{S}}
+\newcommand{\matS}{\mathbf{S}}
+\newcommand{\const}{\mathcal{O}(1)}
+\newcommand{\bigo}{\mathcal{O}}
+\newcommand{\setI}{\mathcal{I}}
+\newcommand{\CM}{\textsc{KroMagnon}}
+\newcommand{\cdeg}{\overline{\Delta}}
+\newcommand{\ct}{\mathcal{O}(1)}
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\norms}[1]{\|#1\|}
+\newcommand{\twonm}[1]{\left\|#1\right\|_2}
+\newcommand{\twonms}[1]{\|#1\|_2}
+\newcommand{\onenm}[1]{\left\|#1\right\|_1}
+\newcommand{\onenms}[1]{\|#1\|_1}
+\newcommand{\fbnorm}[1]{\left\|#1\right\|_F}
+\newcommand{\fbnorms}[1]{\|#1\|_F}
+\newcommand{\prob}[1]{\mathbb{P}\left\{#1\right\}}
+\newcommand{\probs}[1]{\mathbb{P}\{#1\}}
+\newcommand{\EXP}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\EE}{\ensuremath{\mathbb{E}}}
+\newcommand{\EXPS}[1]{\mathbb{E}[#1]}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\innerps}[2]{\langle#1,#2\rangle}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\abss}[1]{|#1|}
+\newcommand{\tsp}{^{\rm T}}
+\newcommand{\floor}[1]{\lfloor#1\rfloor}
+\newcommand{\mt}{B\floor{t/B}}
+%\newcommand{\G}{\overline{G}}
+%\newcommand{\B}{\overline{B}}
+\numberwithin{equation}{section}
+\newcommand{\eq}[1]{(\ref{eq:#1})}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand{\red}[1]{{\color{red}{#1}}}
+
+
+\newcommand\overmat[2]{%
+	\makebox[0pt][l]{$\smash{\color{white}\overbrace{\phantom{%
+					\begin{matrix}#2\end{matrix}}}^{\text{\color{black}#1}}}$}#2}
+\newcommand\bovermat[2]{%
+	\makebox[0pt][l]{$\smash{\overbrace{\phantom{%
+					\begin{matrix}#2\end{matrix}}}^{\text{#1}}}$}#2}
+					
+\newcommand\bundermat[2]{%
+	\makebox[0pt][l]{$\smash{\underbrace{\phantom{%
+					\begin{matrix}#2\end{matrix}}}_{\text{#1}}}$}#2}
+					
+					
+\newcommand\partialphantom{\vphantom{\frac{\partial e_{P,M}}{\partial w_{1,1}}}}
+
+\usepackage{amsmath}
+\usepackage{accents}
+\newlength{\dhatheight}
+\newcommand{\doublehat}[1]{%
+    \settoheight{\dhatheight}{\ensuremath{\hat{#1}}}%
+    \addtolength{\dhatheight}{-0.35ex}%
+    \smash{\hat{#1}}}
+
+
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+\newcommand{\systemFGPT}{{FrugalGPT}}
+
+
+\newcommand{\prompt}{p}
+\newcommand{\query}{q}
+\newcommand{\answer}{a}
+\newcommand{\cost}{c}

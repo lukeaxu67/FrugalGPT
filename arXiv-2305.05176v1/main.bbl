@@ -1,0 +1,296 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{BGMMS21}
+
+\bibitem[AI2]{AI21API}
+{AI21 LLM API}.
+\newblock \url{https://www.ai21.com/}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[ANC{\etalchar{+}}22]{arora2022ask}
+Simran Arora, Avanika Narayan, Mayee~F Chen, Laurel~J Orr, Neel Guha, Kush
+  Bhatia, Ines Chami, Frederic Sala, and Christopher R{\'e}.
+\newblock Ask me anything: A simple strategy for prompting language models.
+\newblock {\em arXiv preprint arXiv:2210.02441}, 2022.
+
+\bibitem[BG18]{buolamwini2018gender}
+Joy Buolamwini and Timnit Gebru.
+\newblock Gender shades: Intersectional accuracy disparities in commercial
+  gender classification.
+\newblock In {\em Conference on fairness, accountability and transparency},
+  pages 77--91. PMLR, 2018.
+
+\bibitem[BGMMS21]{bender2021dangers}
+Emily~M Bender, Timnit Gebru, Angelina McMillan-Major, and Shmargaret
+  Shmitchell.
+\newblock On the dangers of stochastic parrots: Can language models be too big?
+\newblock In {\em Proceedings of the 2021 ACM conference on fairness,
+  accountability, and transparency}, pages 610--623, 2021.
+
+\bibitem[BHS{\etalchar{+}}22]{bai2022towards}
+Haoli Bai, Lu~Hou, Lifeng Shang, Xin Jiang, Irwin King, and Michael~R Lyu.
+\newblock Towards efficient post-training quantization of pre-trained language
+  models.
+\newblock {\em Advances in Neural Information Processing Systems},
+  35:1405--1418, 2022.
+
+\bibitem[BMR{\etalchar{+}}20]{brown2020language}
+Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared~D Kaplan, Prafulla
+  Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell,
+  et~al.
+\newblock Language models are few-shot learners.
+\newblock {\em Advances in neural information processing systems},
+  33:1877--1901, 2020.
+
+\bibitem[Cas19]{cass2019taking}
+Stephen Cass.
+\newblock Taking ai to the edge: Google's tpu now comes in a maker-friendly
+  package.
+\newblock {\em IEEE Spectrum}, 56(5):16--17, 2019.
+
+\bibitem[CCZZ21]{chen2021did}
+Lingjiao Chen, Tracy Cai, Matei Zaharia, and James Zou.
+\newblock Did the model change? efficiently assessing machine learning api
+  shifts.
+\newblock {\em arXiv preprint arXiv:2107.14203}, 2021.
+
+\bibitem[Cha]{ChatGPTAnn}
+{ChatGPT Announcement}.
+\newblock \url{https://openai.com/blog/chatgpt}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[CHSV17]{cai2017deep}
+Zhaowei Cai, Xiaodong He, Jian Sun, and Nuno Vasconcelos.
+\newblock Deep learning with low precision by half-wave gaussian quantization.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 5918--5926, 2017.
+
+\bibitem[CoH]{CoHereAPI}
+{CoHere LLM API}.
+\newblock \url{https://cohere.com/}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[Cosa]{CostEstChatGPT}
+{Cost estimation of using GPT-3 for real applications}.
+\newblock
+  \url{https://www.semianalysis.com/p/the-inference-cost-of-search-disruption}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[Cosb]{CostEstGPT3}
+{Cost estimation of using GPT-3 for real applications}.
+\newblock
+  \url{https://neoteric.eu/blog/how-much-does-it-cost-to-use-gpt-models-gpt-3-pricing-explained}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[CZZ20]{chen2020frugalml}
+Lingjiao Chen, Matei Zaharia, and James~Y Zou.
+\newblock Frugalml: How to use ml prediction apis more accurately and cheaply.
+\newblock {\em Advances in neural information processing systems},
+  33:10685--10696, 2020.
+
+\bibitem[CZZ22]{chen2022efficient}
+Lingjiao Chen, Matei Zaharia, and James Zou.
+\newblock Efficient online ml api selection for multi-label classification
+  tasks.
+\newblock In {\em International Conference on Machine Learning}, pages
+  3716--3746. PMLR, 2022.
+
+\bibitem[DGSG22]{dua2022successive}
+Dheeru Dua, Shivanshu Gupta, Sameer Singh, and Matt Gardner.
+\newblock Successive prompting for decomposing complex questions.
+\newblock {\em arXiv preprint arXiv:2212.04092}, 2022.
+
+\bibitem[DSP{\etalchar{+}}17]{diba2017weakly}
+Ali Diba, Vivek Sharma, Ali Pazandeh, Hamed Pirsiavash, and Luc Van~Gool.
+\newblock Weakly supervised cascaded convolutional networks.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 914--922, 2017.
+
+\bibitem[FFA]{FFAIAPI}
+{forefront AI LLM API}.
+\newblock \url{https://beta.forefront.ai/}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[Fri02]{friedman2002stochastic}
+Jerome~H Friedman.
+\newblock Stochastic gradient boosting.
+\newblock {\em Computational statistics \& data analysis}, 38(4):367--378,
+  2002.
+
+\bibitem[GDMR22]{gupta2022semi}
+Ashit Gupta, Anirudh Deodhar, Tathagata Mukherjee, and Venkataramana Runkana.
+\newblock Semi-supervised cascaded clustering for classification of noisy label
+  data.
+\newblock {\em arXiv preprint arXiv:2205.02209}, 2022.
+
+\bibitem[HMD15]{han2015deep}
+Song Han, Huizi Mao, and William~J Dally.
+\newblock Deep compression: Compressing deep neural networks with pruning,
+  trained quantization and huffman coding.
+\newblock {\em arXiv preprint arXiv:1510.00149}, 2015.
+
+\bibitem[JZA19]{jia2019beyond}
+Zhihao Jia, Matei Zaharia, and Alex Aiken.
+\newblock Beyond data and model parallelism for deep neural networks.
+\newblock {\em Proceedings of Machine Learning and Systems}, 1:1--13, 2019.
+
+\bibitem[KFA23]{kurtic2023ziplm}
+Eldar Kurtic, Elias Frantar, and Dan Alistarh.
+\newblock Ziplm: Hardware-aware structured pruning of language models.
+\newblock {\em arXiv preprint arXiv:2302.04089}, 2023.
+
+\bibitem[KNL{\etalchar{+}}20]{koenecke2020racial}
+Allison Koenecke, Andrew Nam, Emily Lake, Joe Nudell, Minnie Quartey, Zion
+  Mengesha, Connor Toups, John~R Rickford, Dan Jurafsky, and Sharad Goel.
+\newblock Racial disparities in automated speech recognition.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  117(14):7684--7689, 2020.
+
+\bibitem[KSL{\etalchar{+}}22]{khattab2022demonstrate}
+Omar Khattab, Keshav Santhanam, Xiang~Lisa Li, David Hall, Percy Liang,
+  Christopher Potts, and Matei Zaharia.
+\newblock Demonstrate-search-predict: Composing retrieval and language models
+  for knowledge-intensive nlp.
+\newblock {\em arXiv preprint arXiv:2212.14024}, 2022.
+
+\bibitem[KTF{\etalchar{+}}22]{khot2022decomposed}
+Tushar Khot, Harsh Trivedi, Matthew Finlayson, Yao Fu, Kyle Richardson, Peter
+  Clark, and Ashish Sabharwal.
+\newblock Decomposed prompting: A modular approach for solving complex tasks.
+\newblock {\em arXiv preprint arXiv:2210.02406}, 2022.
+
+\bibitem[LLL{\etalchar{+}}21]{liu2021generated}
+Jiacheng Liu, Alisa Liu, Ximing Lu, Sean Welleck, Peter West, Ronan~Le Bras,
+  Yejin Choi, and Hannaneh Hajishirzi.
+\newblock Generated knowledge prompting for commonsense reasoning.
+\newblock {\em arXiv preprint arXiv:2110.08387}, 2021.
+
+\bibitem[LSZ{\etalchar{+}}21]{liu2021makes}
+Jiachang Liu, Dinghan Shen, Yizhe Zhang, Bill Dolan, Lawrence Carin, and Weizhu
+  Chen.
+\newblock What makes good in-context examples for gpt-$3 $?
+\newblock {\em arXiv preprint arXiv:2101.06804}, 2021.
+
+\bibitem[LZG{\etalchar{+}}21]{li2021terapipe}
+Zhuohan Li, Siyuan Zhuang, Shiyuan Guo, Danyang Zhuo, Hao Zhang, Dawn Song, and
+  Ion Stoica.
+\newblock Terapipe: Token-level pipeline parallelism for training large-scale
+  language models.
+\newblock In {\em International Conference on Machine Learning}, pages
+  6543--6552. PMLR, 2021.
+
+\bibitem[MDL{\etalchar{+}}23]{mialon2023augmented}
+Gr{\'e}goire Mialon, Roberto Dess{\`\i}, Maria Lomeli, Christoforos Nalmpantis,
+  Ram Pasunuru, Roberta Raileanu, Baptiste Rozi{\`e}re, Timo Schick, Jane
+  Dwivedi-Yu, Asli Celikyilmaz, et~al.
+\newblock Augmented language models: a survey.
+\newblock {\em arXiv preprint arXiv:2302.07842}, 2023.
+
+\bibitem[Ope]{OpenAIAPI}
+{OpenAI LLM API}.
+\newblock \url{https://platform.openai.com/}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[Ope23]{GPT4TechReport}
+OpenAI.
+\newblock Gpt-4 technical report.
+\newblock {\em arXiv preprint https://arxiv.org/abs/2303.08774}, 2023.
+
+\bibitem[RCM19]{reddy2019coqa}
+Siva Reddy, Danqi Chen, and Christopher~D Manning.
+\newblock Coqa: A conversational question answering challenge.
+\newblock {\em Transactions of the Association for Computational Linguistics},
+  7:249--266, 2019.
+
+\bibitem[RRWN11]{recht2011hogwild}
+Benjamin Recht, Christopher Re, Stephen Wright, and Feng Niu.
+\newblock Hogwild!: A lock-free approach to parallelizing stochastic gradient
+  descent.
+\newblock {\em Advances in neural information processing systems}, 24, 2011.
+
+\bibitem[SDCW19]{sanh2019distilbert}
+Victor Sanh, Lysandre Debut, Julien Chaumond, and Thomas Wolf.
+\newblock Distilbert, a distilled version of bert: smaller, faster, cheaper and
+  lighter.
+\newblock {\em arXiv preprint arXiv:1910.01108}, 2019.
+
+\bibitem[SK21]{sinha2021impact}
+Ankur Sinha and Tanmay Khandait.
+\newblock Impact of news on the commodity market: Dataset and results.
+\newblock In {\em Advances in Information and Communication: Proceedings of the
+  2021 Future of Information and Communication Conference (FICC), Volume 2},
+  pages 589--601. Springer, 2021.
+
+\bibitem[Tex]{TextsynthAPI}
+{Textsynth LLM API}.
+\newblock \url{https://textsynth.com/}.
+\newblock Accessed: 2023-03-31.
+
+\bibitem[TLI{\etalchar{+}}23]{touvron2023llama}
+Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne
+  Lachaux, Timoth{\'e}e Lacroix, Baptiste Rozi{\`e}re, Naman Goyal, Eric
+  Hambro, Faisal Azhar, et~al.
+\newblock Llama: Open and efficient foundation language models.
+\newblock {\em arXiv preprint arXiv:2302.13971}, 2023.
+
+\bibitem[VJ04]{viola2004robust}
+Paul Viola and Michael~J Jones.
+\newblock Robust real-time face detection.
+\newblock {\em International journal of computer vision}, 57:137--154, 2004.
+
+\bibitem[WK21]{wang2021gpt}
+Ben Wang and Aran Komatsuzaki.
+\newblock Gpt-j-6b: A 6 billion parameter autoregressive language model, 2021.
+
+\bibitem[WLM11]{wang2011cascade}
+Lidan Wang, Jimmy Lin, and Donald Metzler.
+\newblock A cascade ranking model for efficient ranked retrieval.
+\newblock In {\em Proceedings of the 34th international ACM SIGIR conference on
+  Research and development in Information Retrieval}, pages 105--114, 2011.
+
+\bibitem[WRG{\etalchar{+}}22]{wu2022sustainable}
+Carole-Jean Wu, Ramya Raghavendra, Udit Gupta, Bilge Acun, Newsha Ardalani,
+  Kiwan Maeng, Gloria Chang, Fiona Aga, Jinshi Huang, Charles Bai, et~al.
+\newblock Sustainable ai: Environmental implications, challenges and
+  opportunities.
+\newblock {\em Proceedings of Machine Learning and Systems}, 4:795--813, 2022.
+
+\bibitem[WWS{\etalchar{+}}22]{wei2022chain}
+Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Ed~Chi, Quoc Le, and
+  Denny Zhou.
+\newblock Chain of thought prompting elicits reasoning in large language
+  models.
+\newblock {\em arXiv preprint arXiv:2201.11903}, 2022.
+
+\bibitem[XLS{\etalchar{+}}22]{xiao2022smoothquant}
+Guangxuan Xiao, Ji~Lin, Mickael Seznec, Julien Demouth, and Song Han.
+\newblock Smoothquant: Accurate and efficient post-training quantization for
+  large language models.
+\newblock {\em arXiv preprint arXiv:2211.10438}, 2022.
+
+\bibitem[YLLL14]{yang2014exploring}
+Fan Yang, Xuan Li, Qianmu Li, and Tao Li.
+\newblock Exploring the diversity in cluster ensemble generation: Random
+  sampling and random projection.
+\newblock {\em Expert Systems with Applications}, 41(10):4844--4866, 2014.
+
+\bibitem[YLW{\etalchar{+}}23]{yao2023comprehensive}
+Zhewei Yao, Cheng Li, Xiaoxia Wu, Stephen Youn, and Yuxiong He.
+\newblock A comprehensive study on post-training quantization for large
+  language models.
+\newblock {\em arXiv preprint arXiv:2303.08302}, 2023.
+
+\bibitem[ZGA{\etalchar{+}}21]{zheng2021does}
+Lucia Zheng, Neel Guha, Brandon~R Anderson, Peter Henderson, and Daniel~E Ho.
+\newblock When does pretraining help? assessing self-supervised learning for
+  law and the casehold dataset of 53,000+ legal holdings.
+\newblock In {\em Proceedings of the eighteenth international conference on
+  artificial intelligence and law}, pages 159--168, 2021.
+
+\bibitem[ZSH{\etalchar{+}}22]{zhou2022least}
+Denny Zhou, Nathanael Sch{\"a}rli, Le~Hou, Jason Wei, Nathan Scales, Xuezhi
+  Wang, Dale Schuurmans, Olivier Bousquet, Quoc Le, and Ed~Chi.
+\newblock Least-to-most prompting enables complex reasoning in large language
+  models.
+\newblock {\em arXiv preprint arXiv:2205.10625}, 2022.
+
+\end{thebibliography}
