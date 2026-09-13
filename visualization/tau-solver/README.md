@@ -8,6 +8,8 @@
 直接双击打开 `index.html`（或拖进浏览器）。无需安装、无需服务器。
 公式渲染依赖 CDN 加载 KaTeX——离线时公式显示为原始 TeX，不影响数值与图表。
 
+**预算 b 可调**：STEP 0 的滑块改变 b 后松手，全部 8 步（网格、单纯形、各图）联动重算，耗时约 0.2 秒。
+
 ```
 visualization/tau-solver/
 ├── index.html            页面（布局 + 交互 + 手绘 SVG 图表）
@@ -25,7 +27,7 @@ visualization/tau-solver/
 | 3 | 阶梯地形：固定 τ₂ 扫 τ₁ 的精确 acc/cost 阶梯曲线 + 断点线（无梯度的原因） | `optimizer.py:64-84`，推导见 `analysis/qa/Q4` |
 | 4 | quantile 参数化与 alive：经验 CDF 上读门限、alive 条件分布、误用全体的对照开关 | `optimizer.py:95-112`，见 `analysis/qa/Q6` |
 | 5 | `scipy.optimize.brute`：40×40 网格热力图（acc 上色、超预算红色、违反单调灰色） | `optimizer.py:118-131` |
-| 6 | `finish=fmin`：Nelder-Mead 单纯形动画（反射/扩张/收缩/缩边，逐步播放） | `optimizer.py:128` |
+| 6 | `finish=fmin`：Nelder-Mead 单纯形动画（反射/扩张/收缩/缩边，逐步播放）；页面标注初始三点构造（scipy 约定：网格最优 + 两轴各偏 5%）、终止条件（xatol=fatol=1e-4）与"平台游走"统计（f 首次到优后还剩多少轮） | `optimizer.py:128` |
 | 7 | 结果：u*, τ*, 与单 API 基线对比（精度/成本两张图） | — |
 
 ## 关键语义（与论文的对应）

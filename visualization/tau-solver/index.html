@@ -83,7 +83,7 @@
     <span>\(D_{ij}=1-g\)：失败概率（<b>代码语义</b>）</span>
     <span>\(\tau_j\)：失败上限，\(D<\tau\) 接受，越大越宽松</span>
     <span>\(u_j\)：第 \(j\) 级的<b>升级比例</b>（quantile 水平，放行 \(1-u_j\)）</span>
-    <span>\(b=0.006\)：平均成本预算</span>
+    <span>\(b=\)<span id="sym_b">0.006</span>：平均成本预算（STEP 0 滑块可调）</span>
     <span>\(\tau_3\equiv1\)：末级必答</span>
   </div>
 </header>
@@ -99,7 +99,7 @@
 <!-- ================= STEP 0 ================= -->
 <section class="step" id="s0">
   <div class="steptag">STEP 0 · 问题设定与演示数据</div>
-  <h2>固定 \(\mathbf{L}=(A,B,C)\)，在 200 条查询上解 \(\boldsymbol\tau=(\tau_1,\tau_2,\tau_3)\)，预算 \(b=0.006\)</h2>
+  <h2>固定 \(\mathbf{L}=(A,B,C)\)，在 200 条查询上解 \(\boldsymbol\tau=(\tau_1,\tau_2,\tau_3)\)，预算 \(b\) 可在下方调节</h2>
   <div class="cols">
     <div class="explain">
       <p>外层对 \(\mathbf{L}\) 的枚举与剪枝你已经理解，本页只做<b>内层：固定 L，解 τ</b>。
@@ -118,6 +118,10 @@
       <p class="note">种子固定（20260913），页面里每个数字都可用 <code>node tests/core.test.js</code> 复现。</p>
     </div>
     <div class="viz">
+      <div class="controls">
+        <label>预算 \(b\) <input type="range" id="sl_b" min="0.002" max="0.012" step="0.0005" value="0.006"><span id="v_b">0.0060</span></label>
+        <span class="klabel">松开后全量重算（网格 + 单纯形，约 1 秒），后续所有步骤联动</span>
+      </div>
       <div class="legend">
         <span><span class="sw" style="background:var(--cA)"></span>A</span>
         <span><span class="sw" style="background:var(--cB)"></span>B</span>
@@ -284,6 +288,22 @@
         ③ 一般 → 直接接受；更差 → <b>收缩</b>（向重心缩一半）<br>
         ④ 全都差 → <b>缩边</b>：整三角形向最优点收拢
       </div>
+      <div class="formula">
+        初始三点（scipy <code>fmin</code> 约定，起点 = 网格最优 \((u_1^{g},u_2^{g})\)）：<br>
+        \(V_0=(u_1^{g},u_2^{g})\)，\(\;V_1=(1.05\,u_1^{g},\ u_2^{g})\)，\(\;V_2=(u_1^{g},\ 1.05\,u_2^{g})\)
+        ——沿两个坐标轴各偏 5%<br><br>
+        终止：顶点间最大坐标差 ≤ xatol=10⁻⁴ 且 f 差 ≤ fatol=10⁻⁴，或达 400 轮上限
+      </div>
+      <p><b>为什么本例约 10 轮就停，而 f 只在前几轮变化</b>：本例 f 在第 3 轮登上最优平台
+         （跨越了一条单元格边界），其后所有试探点的 f <b>完全相同</b>——比较 f 已无法区分方向
+         （这就是"零信息"），算法唯一能做的是向最优点<b>几何收缩</b>：顶点逐轮减半靠近，
+         直到逐轴散布 ≤ 10⁻⁴ 触发终止。下表顶点显示 5 位小数，能看到第 8~11 轮仍在收敛。</p>
+      <p><b>"始终在一个平台上？"——对，且这是精确陈述</b>：平台 = 一组相邻单元格的并（目标值相同）。
+         关键在于单元格内部的目标是<b>精确</b>恒定，不是"近似恒定"——所以"粗网格 → 细网格"的直觉
+         只在<b>跨越单元格</b>时有意义，单元格内部不存在可被细化发现的更细结构。
+         u 轴单元格宽约 1/n = 0.005 ≫ 容差 10⁻⁴，因此单纯形一旦缩进最优单元格（约第 8 轮），
+         剩余迭代必然零变化。n 越大单元格越窄；若单元格宽小于容差，单纯形会横跨多格、
+         f 持续变化，形态就完全不同了。</p>
       <p>它没有梯度、也没有全局机制（可能停在非最优平台），所以只从网格最优点出发做<b>局部</b>打磨——
          这就是 <code>finish=fmin</code> 的分工：网格管全局，单纯形管精修。</p>
       <p>拖动滑块或点"播放"，看三角形逐步变形；白折线是历轮最优点的轨迹。
@@ -333,7 +353,8 @@
 <script>
 "use strict";
 /* ================= 常量与全局 ================= */
-const BUDGET = 0.006, N = 200, NS = 40;
+let BUDGET = 0.006;                 // 预算（STEP 0 滑块可调）
+const N = 200, NS = 40;
 const API_COLORS = ["#2a78d6", "#eb6834", "#1baf7a"];
 const API_NAMES = ["A · gpt-4o-mini", "B · gemma-2-9b", "C · gpt-4-turbo"];
 const CASC_COLOR = "#eda100";                 // 第 4 类别槽（直标辅助）
@@ -342,9 +363,9 @@ const INK = "#0b0b0b", INK2 = "#52514e", MUT = "#898781",
 
 const ds = FrugalCore.generateDataset(N, 20260913);
 const M = FrugalCore.constructMatrices(ds);
-const SOL = FrugalCore.fullSolve(ds, BUDGET, NS);   // 网格 + NM
-const BASE = FrugalCore.baselines(M);               // 单 API 基线
-const BEST = SOL.best;
+let SOL = FrugalCore.fullSolve(ds, BUDGET, NS);     // 网格 + NM
+const BASE = FrugalCore.baselines(M);               // 单 API 基线（与预算无关）
+let BEST = SOL.best;
 // NM 迭代日志（按 STEP 5 的对照开关在约束/无约束两份之间切换）
 function NMLOG() { return monoOn ? SOL.nm.iterations : nmFreeRun.iterations; }
 
@@ -746,7 +767,7 @@ function drawGridPlane(boxId, points, fade, marks) {
   return f;
 }
 // STEP 5：热力图（对照开关：关闭单调约束的"反事实"网格）
-const gridFree = (function () {
+function computeGridFree() {
   const axis = SOL.grid.axis, pts = [];
   let best = null;
   axis.forEach(function (u1) {
@@ -761,7 +782,8 @@ const gridFree = (function () {
     });
   });
   return { points: pts, best: best };
-})();
+}
+let gridFree = computeGridFree();
 let monoOn = true;
 function renderGrid() {
   const src = monoOn ? SOL.grid : gridFree;
@@ -781,17 +803,19 @@ $("ck_mono").addEventListener("change", function (e) {
 });
 renderGrid();
 // 无约束对照的 NM 运行（起点 = 无约束网格最优，目标不含 u1<=u2 罚）
-const nmFreeRun = FrugalCore.nelderMead(function (x) {
-  const tt = FrugalCore.tauFromQual(x[0], x[1], M.D);
-  const sim = FrugalCore.simulate(M.R, M.C, M.D, tt.tau, BUDGET);
-  return sim.feasible ? -sim.acc : 10000;
-}, [gridFree.best.u1, gridFree.best.u2]);
-const BEST_FREE = (function () {
+let nmFreeRun = null, BEST_FREE = null;
+function computeFreeSolutions() {
+  nmFreeRun = FrugalCore.nelderMead(function (x) {
+    const tt = FrugalCore.tauFromQual(x[0], x[1], M.D);
+    const sim = FrugalCore.simulate(M.R, M.C, M.D, tt.tau, BUDGET);
+    return sim.feasible ? -sim.acc : 10000;
+  }, [gridFree.best.u1, gridFree.best.u2]);
   const tt = FrugalCore.tauFromQual(nmFreeRun.x[0], nmFreeRun.x[1], M.D);
   const sim = FrugalCore.simulate(M.R, M.C, M.D, tt.tau, BUDGET);
-  return { u1: nmFreeRun.x[0], u2: nmFreeRun.x[1], tau: tt.tau,
-           acc: sim.accRate, cost: sim.costAvg, sim: sim };
-})();
+  BEST_FREE = { u1: nmFreeRun.x[0], u2: nmFreeRun.x[1], tau: tt.tau,
+                acc: sim.accRate, cost: sim.costAvg, sim: sim };
+}
+computeFreeSolutions();
 
 /* ================= STEP 6：Nelder-Mead 动画 ================= */
 const nm = { k: 0, timer: null };
@@ -830,10 +854,17 @@ function drawNM() {
   const rows = it.fvals.map(function (fv, idx) {
     const v = it.vertices[idx];
     return `<tr><td>${idx === argmin(it.fvals) ? "★" : ""}</td>` +
-      `<td>(${fmt(v[0],3)}, ${fmt(v[1],3)})</td><td>${fmt(fv,1)}</td></tr>`;
+      `<td>(${fmt(v[0],5)}, ${fmt(v[1],5)})</td><td>${fmt(fv,1)}</td></tr>`;
   }).join("");
+  // "首次到达最终最优"与平台游走统计
+  const finalBest = Math.min(...LOG[LOG.length - 1].fvals);
+  let firstBest = LOG.length - 1;
+  for (let t = 0; t < LOG.length; t++) {
+    if (Math.min(...LOG[t].fvals) <= finalBest + 1e-9) { firstBest = t; break; }
+  }
   $("nm_table").innerHTML = "<table class='data'><tr><th></th><th>顶点 (u₁,u₂)</th><th>f（=−答对数，越小越好）</th></tr>" +
-    rows + "</table><p class='note'>f 是优化器最小化的目标：可行时 = −(答对数)；f=10000 表示该顶点不可行（超预算/违反单调）。</p>";
+    rows + "</table><p class='note'>f 是优化器最小化的目标：可行时 = −(答对数)；f=10000 表示该顶点不可行（超预算/违反单调）。" +
+    `f 在第 <b>${firstBest}</b> 轮首次到达最终最优，其后 ${LOG.length - 1 - firstBest} 轮为平台收缩（逐轴散布减至 1e-4 后停止）。</p>`;
 }
 function argmin(a){ let m = 0; for (let i = 1; i < a.length; i++) if (a[i] < a[m]) m = i; return m; }
 function bestVertex(it){ return it.vertices[argmin(it.fvals)]; }
@@ -870,7 +901,7 @@ function renderStep7() {
   const cAlone = BASE[2];
   const nmiter = (monoOn ? SOL.nm : nmFreeRun).iterations.length;
   $("s7_text").innerHTML =
-    `<p>完整流程跑完（1600 格点 + ${nmiter} 轮单纯形${monoOn ? "" : "；当前为<b>无约束对照</b>模式"}）：</p>
+    `<p>完整流程跑完（1600 格点网格 + ${nmiter - 1} 轮单纯形更新${monoOn ? "" : "；当前为<b>无约束对照</b>模式"}）：</p>
      <div class="formula">
        \\(u^*=(${fmt(sol.u1,3)},\\ ${fmt(sol.u2,3)})\\) →
        \\(\\boldsymbol\\tau^*=(${fmt(sol.tau[0],3)},\\ ${fmt(sol.tau[1],3)},\\ 1)\\)<br><br>
@@ -920,6 +951,33 @@ function renderStep7() {
   typesetMath($("s7_text"));
 }
 renderStep7();
+
+/* ================= 预算滑块（STEP 0） ================= */
+function recomputeSolver() {
+  SOL = FrugalCore.fullSolve(ds, BUDGET, NS);
+  BEST = SOL.best;
+  gridFree = computeGridFree();
+  computeFreeSolutions();
+}
+function applyBudget(b) {
+  BUDGET = b;
+  recomputeSolver();
+  // 各步骤的"当前解"重置为新预算下的最优，并联动刷新
+  s2.t1 = BEST.tau[0]; s2.t2 = BEST.tau[1];
+  $("sl_t1").value = s2.t1; $("sl_t2").value = s2.t2; $("sl_t2b").value = s2.t2;
+  s4.u1 = BEST.u1; s4.u2 = BEST.u2;
+  $("sl_u1").value = s4.u1; $("sl_u2").value = s4.u2;
+  stopPlay();
+  $("sl_it").max = NMLOG().length - 1; nmGoto(0);
+  renderStep2(); renderStep3(); renderStep4(); renderGrid(); renderStep7();
+  $("sym_b").textContent = BUDGET.toFixed(4);
+  $("h_b") && ($("h_b").textContent = BUDGET.toFixed(4));
+}
+$("sl_b").addEventListener("input", function (e) {
+  const v = (+e.target.value).toFixed(4);
+  $("v_b").textContent = v; $("sym_b").textContent = v;
+});
+$("sl_b").addEventListener("change", function (e) { applyBudget(+e.target.value); });
 
 /* ================= 初始化 ================= */
 $("ck_mono").checked = false; monoOn = true;   // 显式复位，规避表单状态恢复的竞态

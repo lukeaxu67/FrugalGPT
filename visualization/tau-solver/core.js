@@ -260,7 +260,8 @@
       sim = order.map(function (i) { return sim[i]; });
       fv = order.map(function (i) { return fv[i]; });
 
-      if (maxAbsDiff(sim.slice(1)) <= xatol && maxAbsDiffArr(fv.slice(1)) <= fatol) break;
+      // scipy 语义：逐坐标与最优顶点之差的 max ≤ xatol，且 f 与最优之差的 max ≤ fatol
+      if (coordSpread(sim) <= xatol && fSpread(fv) <= fatol) break;
       if (nfev >= maxFun) break;
 
       const centroid = new Array(n).fill(0);
@@ -304,16 +305,17 @@
     return { x: sim[order[0]].slice(), f: fv[order[0]], iterations: iterations,
              nfev: nfev };
   }
-  function maxAbsDiff(vs) {
-    let mn = Infinity, mx = -Infinity;
-    vs.forEach(function (v) { v.forEach(function (x) {
-      if (x < mn) mn = x; if (x > mx) mx = x; }); });
-    return mx - mn;
+  function coordSpread(sim) {   // max_{i>=1,k} |sim[i][k] - sim[0][k]|（scipy 语义）
+    let m = 0;
+    for (let i = 1; i < sim.length; i++)
+      for (let k = 0; k < sim[i].length; k++)
+        m = Math.max(m, Math.abs(sim[i][k] - sim[0][k]));
+    return m;
   }
-  function maxAbsDiffArr(a) {
-    let mn = Infinity, mx = -Infinity;
-    a.forEach(function (x) { if (x < mn) mn = x; if (x > mx) mx = x; });
-    return mx - mn;
+  function fSpread(fv) {        // max_{i>=1} |fv[0] - fv[i]|
+    let m = 0;
+    for (let i = 1; i < fv.length; i++) m = Math.max(m, Math.abs(fv[0] - fv[i]));
+    return m;
   }
 
   /* ---------------- 完整流程（网格 → 局部细化） ---------------- */
