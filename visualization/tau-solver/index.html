@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FrugalGPT τ 求解全过程 · 分步可视化（200 条数据 × 固定 L）</title>
+<title>FrugalGPT τ 求解全过程 · 分步可视化（2000 条数据 × 固定 L）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>
   :root{
@@ -75,9 +75,9 @@
 
 <header>
   <h1>FrugalGPT · τ 是怎么被求解出来的</h1>
-  <div class="sub">200 条演示数据 × 固定级联 \(\mathbf{L}=(A,B,C)\) ｜ 分步复现 <code>src/FrugalGPT/optimizer.py</code> 的完整求解过程：矩阵 → 模拟 → 阶梯 → quantile/alive → 40×40 网格 → Nelder-Mead → 结果</div>
+  <div class="sub">2000 条演示数据 × 固定级联 \(\mathbf{L}=(A,B,C)\) ｜ 分步复现 <code>src/FrugalGPT/optimizer.py</code> 的完整求解过程：矩阵 → 模拟 → 阶梯 → quantile/alive → 网格粗搜 → Nelder-Mead 细化 → 结果</div>
   <div class="symbar">
-    <span>\(n=200\)（训练查询数）</span>
+    <span>\(n=2000\)（训练查询数）</span>
     <span>\(m=3\)（级联深度）</span>
     <span>\(g\in(0,1)\)：打分器=答对概率</span>
     <span>\(D_{ij}=1-g\)：失败概率（<b>代码语义</b>）</span>
@@ -99,7 +99,7 @@
 <!-- ================= STEP 0 ================= -->
 <section class="step" id="s0">
   <div class="steptag">STEP 0 · 问题设定与演示数据</div>
-  <h2>固定 \(\mathbf{L}=(A,B,C)\)，在 200 条查询上解 \(\boldsymbol\tau=(\tau_1,\tau_2,\tau_3)\)，预算 \(b\) 可在下方调节</h2>
+  <h2>固定 \(\mathbf{L}=(A,B,C)\)，在 2000 条查询上解 \(\boldsymbol\tau=(\tau_1,\tau_2,\tau_3)\)，预算 \(b\) 可在下方调节</h2>
   <div class="cols">
     <div class="explain">
       <p>外层对 \(\mathbf{L}\) 的枚举与剪枝你已经理解，本页只做<b>内层：固定 L，解 τ</b>。
@@ -119,7 +119,7 @@
     </div>
     <div class="viz">
       <div class="controls">
-        <label>预算 \(b\) <input type="range" id="sl_b" min="0.002" max="0.012" step="0.0005" value="0.006"><span id="v_b">0.0060</span></label>
+        <label>预算 \(b\) <input type="range" autocomplete="off" id="sl_b" min="0.002" max="0.012" step="0.0005" value="0.006"><span id="v_b">0.0060</span></label>
         <span class="klabel">松开后全量重算（网格 + 单纯形，约 1 秒），后续所有步骤联动</span>
       </div>
       <div class="legend">
@@ -137,10 +137,10 @@
 <!-- ================= STEP 1 ================= -->
 <section class="step" id="s1">
   <div class="steptag">STEP 1 · construct_data：期望 → 三张矩阵</div>
-  <h2>先把"期望"折叠成 200×3 的查表（此后零 LLM 调用）</h2>
+  <h2>先把"期望"折叠成 2000×3 的查表（此后零 LLM 调用）</h2>
   <div class="cols">
     <div class="explain">
-      <p>把 3 个 API 对全部 200 条查询<b>离线各调一次</b>并缓存，构造三张矩阵：</p>
+      <p>把 3 个 API 对全部 2000 条查询<b>离线各调一次</b>并缓存，构造三张矩阵：</p>
       <div class="formula">
         \(q_i\)：第 \(i\) 条查询；\(a_i\)：它的真实答案；\(f_{L_j}(q)\)：链上第 \(j\) 级 API 对 \(q\) 的回答<br><br>
         \(r(\cdot)\in\{0,1\}\)：正确性判定（exact match）。\(\;R_{ij}=r\big(a_i, f_{L_j}(q_i)\big)\) ——第 \(i\) 条查询用第 \(j\) 级 API 答对了吗<br><br>
@@ -161,7 +161,7 @@
 <!-- ================= STEP 2 ================= -->
 <section class="step" id="s2">
   <div class="steptag">STEP 2 · f(delta)：给定 τ 模拟一遍级联</div>
-  <h2>τ 定了，200 条查询各停在哪一级、目标值就是两个求和</h2>
+  <h2>τ 定了，2000 条查询各停在哪一级、目标值就是两个求和</h2>
   <div class="cols">
     <div class="explain">
       <p>拖动下面两个滑块（<b>失败空间</b>：调大 = 放宽）。接受规则与首站停：</p>
@@ -176,8 +176,8 @@
     </div>
     <div class="viz">
       <div class="controls">
-        <label>\(\tau_1\) <input type="range" id="sl_t1" min="0" max="1" step="0.001" value="0.222"><span id="v_t1"></span></label>
-        <label>\(\tau_2\) <input type="range" id="sl_t2" min="0" max="1" step="0.001" value="0.262"><span id="v_t2"></span></label>
+        <label>\(\tau_1\) <input type="range" autocomplete="off" id="sl_t1" min="0" max="1" step="0.001" value="0.222"><span id="v_t1"></span></label>
+        <label>\(\tau_2\) <input type="range" autocomplete="off" id="sl_t2" min="0" max="1" step="0.001" value="0.262"><span id="v_t2"></span></label>
         <span class="chip">\(\tau_3 = 1\)（固定）</span>
       </div>
       <div class="controls" id="s2_stats"></div>
@@ -196,14 +196,14 @@
     <div class="explain">
       <p>\(\boldsymbol\tau\) 只通过 \(n\) 个指示函数 \(\mathbf{1}\{D_{i1}&lt;\tau_1\}\) 进入目标
          ——单个指示符在 \(\tau_1=D_{i1}\) 处跳一次，有限和仍是阶梯。
-         断点集合 = 观测距离 \(\{D_{i1}\}\)（下图竖虚线，≤200 个）。</p>
+         断点集合 = 观测距离 \(\{D_{i1}\}\)（≤ n 个；过密时下图仅示意绘制一部分，计数见角标）。</p>
       <p>后果：<b>平台内梯度处处为 0，且 0 梯度 ≠ 最优</b>（右下平台比中间平台差），
          梯度类算法（GD/L-BFGS）全部失效——这决定了后面只能"网格 + 无梯度单纯形"。</p>
       <p class="note">成本（下图）随 \(\tau_1\) 单调下降：早停越多，落到末级的 0.036 累计成本越少；红线是预算 \(b\)。</p>
     </div>
     <div class="viz">
       <div class="controls">
-        <label>固定 \(\tau_2\) = <input type="range" id="sl_t2b" min="0" max="1" step="0.001" value="0.262"><span id="v_t2b"></span></label>
+        <label>固定 \(\tau_2\) = <input type="range" autocomplete="off" id="sl_t2b" min="0" max="1" step="0.001" value="0.262"><span id="v_t2b"></span></label>
         <span class="chip">断点数 = <b id="v_bp"></b></span>
       </div>
       <div class="chartbox" id="c_acc"></div>
@@ -235,9 +235,9 @@
     </div>
     <div class="viz">
       <div class="controls">
-        <label>\(u_1\) <input type="range" id="sl_u1" min="0.01" max="0.99" step="0.001" value="0.359"><span id="v_u1"></span></label>
-        <label>\(u_2\) <input type="range" id="sl_u2" min="0.01" max="0.99" step="0.001" value="0.436"><span id="v_u2"></span></label>
-        <label><input type="checkbox" id="ck_allq"> 对照：τ₂ 误用全体查询取分位</label>
+        <label>\(u_1\) <input type="range" autocomplete="off" id="sl_u1" min="0.01" max="0.99" step="0.001" value="0.359"><span id="v_u1"></span></label>
+        <label>\(u_2\) <input type="range" autocomplete="off" id="sl_u2" min="0.01" max="0.99" step="0.001" value="0.436"><span id="v_u2"></span></label>
+        <label><input type="checkbox" autocomplete="off" id="ck_allq"> 对照：τ₂ 误用全体查询取分位</label>
       </div>
       <div class="controls" id="s4_stats"></div>
       <div class="chartbox" id="c_cdf"></div>
@@ -248,8 +248,8 @@
 
 <!-- ================= STEP 5 ================= -->
 <section class="step" id="s5">
-  <div class="steptag">STEP 5 · scipy.optimize.brute：40×40 网格粗搜</div>
-  <h2>在 \(u\) 平面撒 1600 个点，每个点必命中一个不同单元格</h2>
+  <div class="steptag">STEP 5 · scipy.optimize.brute：网格粗搜</div>
+  <h2>在 \(u\) 平面撒 400 个点（20×20；仓库代码为 40×40），每个点必命中一个不同单元格</h2>
   <div class="cols">
     <div class="explain">
       <p>网格 = \(\mathrm{linspace}(10^{-5},\,1{-}10^{-5},\,40)\) 的笛卡尔积。颜色 = 该点的
@@ -261,11 +261,11 @@
       <p>灰色 = 单调区外（对角线下方）；红色 = 超预算。白星 = 网格最优，
          它将作为下一步 Nelder-Mead 的起点。</p>
       <p>为什么按 u 而不是按 τ 撒点：单元格宽度由数据密度决定（τ 轴上极不均匀），
-         而 u 轴上单元格等宽 ~1/n——<b>同样 1600 次评估，覆盖质量完全不同</b>。</p>
+         而 u 轴上单元格等宽 ~1/n——<b>同样 400 次评估，覆盖质量完全不同</b>。</p>
     </div>
     <div class="viz">
       <div class="controls">
-        <label><input type="checkbox" id="ck_mono"> 对照实验：关闭 \(u_1\le u_2\) 单调约束（代码之外的反事实假设）</label>
+        <label><input type="checkbox" autocomplete="off" id="ck_mono"> 对照实验：关闭 \(u_1\le u_2\) 单调约束（代码之外的反事实假设）</label>
       </div>
       <div class="chartbox" id="c_grid"></div>
       <p class="note">悬停任意格点：u、反解出的 τ、acc、cost。数据由本页实时计算（node 端可复现）。</p>
@@ -298,12 +298,11 @@
          （跨越了一条单元格边界），其后所有试探点的 f <b>完全相同</b>——比较 f 已无法区分方向
          （这就是"零信息"），算法唯一能做的是向最优点<b>几何收缩</b>：顶点逐轮减半靠近，
          直到逐轴散布 ≤ 10⁻⁴ 触发终止。下表顶点显示 5 位小数，能看到第 8~11 轮仍在收敛。</p>
-      <p><b>"始终在一个平台上？"——对，且这是精确陈述</b>：平台 = 一组相邻单元格的并（目标值相同）。
-         关键在于单元格内部的目标是<b>精确</b>恒定，不是"近似恒定"——所以"粗网格 → 细网格"的直觉
-         只在<b>跨越单元格</b>时有意义，单元格内部不存在可被细化发现的更细结构。
-         u 轴单元格宽约 1/n = 0.005 ≫ 容差 10⁻⁴，因此单纯形一旦缩进最优单元格（约第 8 轮），
-         剩余迭代必然零变化。n 越大单元格越窄；若单元格宽小于容差，单纯形会横跨多格、
-         f 持续变化，形态就完全不同了。</p>
+      <p><b>平台与单元格：目标在单元格内部是精确恒定</b>（不是"近似恒定"），所以"粗 → 细"的细化
+         只在<b>跨越单元格</b>时有意义。u 轴单元格宽 ≈ 1/n = 0.0005，与容差 10⁻⁴ 同量级——
+         单纯形在中段（本例第 7~14 轮）仍会横跨多格、f 持续变化，这正是"由粗到细"的可见形态；
+         末段缩进同一单元格后，仅剩约 1~2 轮纯平台即满足容差停止。
+         对比：若 n=200（格宽 0.005 ≫ 容差），第 3 轮之后就直接进入零变化的平台游走——本页此前的版本即该形态。</p>
       <p>它没有梯度、也没有全局机制（可能停在非最优平台），所以只从网格最优点出发做<b>局部</b>打磨——
          这就是 <code>finish=fmin</code> 的分工：网格管全局，单纯形管精修。</p>
       <p>拖动滑块或点"播放"，看三角形逐步变形；白折线是历轮最优点的轨迹。
@@ -314,7 +313,7 @@
         <button id="btn_play" class="primary">▶ 播放</button>
         <button id="btn_step">单步 ▸</button>
         <button id="btn_reset">复位</button>
-        <label>迭代 <input type="range" id="sl_it" min="0" max="60" step="1" value="0"><span id="v_it"></span></label>
+        <label>迭代 <input type="range" autocomplete="off" id="sl_it" min="0" max="60" step="1" value="0"><span id="v_it"></span></label>
         <span class="chip" id="v_action">—</span>
       </div>
       <div class="chartbox" id="c_nm"></div>
@@ -353,8 +352,11 @@
 <script>
 "use strict";
 /* ================= 常量与全局 ================= */
-let BUDGET = 0.006;                 // 预算（STEP 0 滑块可调）
-const N = 200, NS = 40;
+let BUDGET = 0.006;      // 预算（STEP 0 滑块可调）
+const N = 2000;          // 查询数：扩充到 2000，使 u 轴单元格宽 (1/n=5e-4) 与容差 1e-4 同量级，
+                         // 单纯形细化阶段能真实跨越单元格——"由粗到细"现象可见
+const NS = 20;           // 网格每维点数：从代码的 40 降到 20 以抵消 n×10 的计算量
+                         // （仓库 optimizer.py 为 Ns=40；20 个质量水平仍保证每格点命中不同单元格）
 const API_COLORS = ["#2a78d6", "#eb6834", "#1baf7a"];
 const API_NAMES = ["A · gpt-4o-mini", "B · gemma-2-9b", "C · gpt-4-turbo"];
 const CASC_COLOR = "#eda100";                 // 第 4 类别槽（直标辅助）
@@ -488,13 +490,15 @@ function matrixStrip(boxId, mat, colorFn, title, tipHtml) {
   f.svg.style.marginBottom = "8px";
   svgEl("text", { x: -32, y: -8, "font-size": 12, fill: INK, "font-weight": 600 },
         f.g).textContent = title;
+  const step = Math.max(1, Math.ceil(N / f.iw));   // n 大于像素列数时按像素组聚合
   const cw = f.iw / N, rh = f.ih / 3;
   for (let j = 0; j < 3; j++) {
     svgEl("text", { x: -8, y: j * rh + rh / 2 + 4, "text-anchor": "end",
                     "font-size": 11, fill: API_COLORS[j], "font-weight": 600 },
           f.g).textContent = ["A","B","C"][j];
-    for (let i = 0; i < N; i++) {
-      svgEl("rect", { x: i * cw, y: j * rh, width: cw, height: rh - 1.2,
+    for (let i = 0; i < N; i += step) {
+      const w = Math.min(step, N - i) * cw;
+      svgEl("rect", { x: i * cw, y: j * rh, width: w, height: rh - 1.2,
                       fill: colorFn(mat[i][j], i, j) }, f.g);
     }
   }
@@ -542,17 +546,25 @@ function renderStep2() {
 
   // 接受矩阵可视化：每列 1 格 = 停机级
   const w = 660, h = 150, f = chartFrame($("c_A"), w, h, 40, 8, 18, 20);
+  const step = Math.max(1, Math.ceil(N / f.iw));
   const cw = f.iw / N, rh = f.ih / 3;
   for (let j = 0; j < 3; j++) {
     svgEl("text", { x:-8, y: j*rh + rh/2 + 4, "text-anchor":"end", "font-size":11,
                     fill:API_COLORS[j], "font-weight":600 }, f.g).textContent = "ABC"[j];
-    for (let i = 0; i < N; i++) {
-      const acc = sim.A[i][j] === 1;
-      const passthrough = sim.z[i] > j;
-      svgEl("rect", { x: i*cw, y: j*rh, width: cw, height: rh-1.2,
-                      fill: acc ? API_COLORS[j] : (passthrough ? "#efeee9" : "#f7f6f2") }, f.g)
-        ._tip = `#${i} ${ds.bands[ds.rows[i].band].name}：D=[${M.D[i].map(x=>fmt(x,2))}] → 停在 ${sim.z[i]<0?"—":"ABC"[sim.z[i]]}`;
+  }
+  for (let i = 0; i < N; i += step) {
+    const iEnd = Math.min(i + step, N);
+    const cnt = [0, 0, 0];
+    for (let k = i; k < iEnd; k++) if (sim.z[k] >= 0) cnt[sim.z[k]]++;
+    const dom = cnt.indexOf(Math.max(...cnt));
+    for (let j = 0; j < 3; j++) {
+      const adopted = dom === j;
+      const passthrough = j < dom;
+      svgEl("rect", { x: i*cw, y: j*rh, width: cw*step, height: rh-1.2,
+                      fill: adopted ? API_COLORS[j] : (passthrough ? "#efeee9" : "#f7f6f2") }, f.g);
     }
+    svgEl("rect", { x: i*cw, y: 0, width: cw*step, height: f.ih, fill: "transparent" }, f.g)
+      ._tip = `#${i}${iEnd-i>1 ? "–"+(iEnd-1) : ""}：停于 A ${cnt[0]} / B ${cnt[1]} / C ${cnt[2]}`;
   }
   svgEl("line", { x1:0, y1:f.ih+3, x2:f.iw, y2:f.ih+3, stroke:AXIS }, f.g);
   svgEl("text", { x:f.iw/2, y:f.ih+16, "text-anchor":"middle", "font-size":10, fill:MUT },
@@ -573,19 +585,22 @@ $("sl_t2b").addEventListener("input", e => setTau2(+e.target.value));
 
 /* ================= STEP 3：阶梯曲线（扫 τ1，固定 τ2） ================= */
 function sweepTau1(tau2) {
-  // 精确阶梯：断点 = 排序去重后的 D[:,0]
+  // 精确阶梯：断点 = 排序去重后的 D[:,0]；断点过多时路径均匀抽样（真实计数见角标）
   const bps = [];
   for (let i = 0; i < N; i++) bps.push(M.D[i][0]);
   bps.sort((a, b) => a - b);
   const uniq = bps.filter((v, k) => k === 0 || v > bps[k - 1] + 1e-12);
-  const edges = [0].concat(uniq, [1.0001]);
+  const stp = Math.max(1, Math.ceil(uniq.length / 400));
+  const used = [];
+  for (let k = 0; k < uniq.length; k += stp) used.push(uniq[k]);
+  const edges = [0].concat(used, [1.0001]);
   const accV = [], costV = [];
   for (let k = 0; k < edges.length - 1; k++) {
     const t = (edges[k] + edges[k + 1]) / 2;
     const s = FrugalCore.simulate(M.R, M.C, M.D, [t, tau2, 1], BUDGET);
     accV.push(s.accRate); costV.push(s.costAvg);
   }
-  return { edges: edges, acc: accV, cost: costV, uniq: uniq };
+  return { edges: edges, acc: accV, cost: costV, uniq: uniq, used: used };
 }
 function renderStep3() {
   const tau2 = s2.t2;
@@ -604,7 +619,7 @@ function renderStep3() {
       svgEl("text", { x: x(t), y: f.ih + 14, "text-anchor": "middle", "font-size": 10, fill: MUT },
             f.g).textContent = fmt(t, 2);
     });
-    sw.uniq.forEach(function (d) {
+    sw.used.forEach(function (d) {
       svgEl("line", { x1: x(d), y1: 0, x2: x(d), y2: f.ih,
                       stroke: MUT, "stroke-width": .7, "stroke-dasharray": "3,3", opacity: .7 }, f.g);
     });
@@ -712,7 +727,7 @@ $("sl_u1").addEventListener("input", e => { s4.u1 = +e.target.value; renderStep4
 $("sl_u2").addEventListener("input", e => { s4.u2 = +e.target.value; renderStep4(); });
 $("ck_allq").addEventListener("change", e => { s4.allq = e.target.checked; renderStep4(); });
 
-/* ================= STEP 5：40×40 网格热力图 ================= */
+/* ================= STEP 5：网格热力图 ================= */
 function drawGridPlane(boxId, points, fade, marks) {
   const w = 620, h = 600, f = chartFrame($(boxId), w, h, 54, 14, 14, 46);
   const axis = SOL.grid.axis;
@@ -901,7 +916,7 @@ function renderStep7() {
   const cAlone = BASE[2];
   const nmiter = (monoOn ? SOL.nm : nmFreeRun).iterations.length;
   $("s7_text").innerHTML =
-    `<p>完整流程跑完（1600 格点网格 + ${nmiter - 1} 轮单纯形更新${monoOn ? "" : "；当前为<b>无约束对照</b>模式"}）：</p>
+    `<p>完整流程跑完（${NS*NS} 格点网格 + ${nmiter - 1} 轮单纯形更新${monoOn ? "" : "；当前为<b>无约束对照</b>模式"}）：</p>
      <div class="formula">
        \\(u^*=(${fmt(sol.u1,3)},\\ ${fmt(sol.u2,3)})\\) →
        \\(\\boldsymbol\\tau^*=(${fmt(sol.tau[0],3)},\\ ${fmt(sol.tau[1],3)},\\ 1)\\)<br><br>
@@ -979,23 +994,30 @@ $("sl_b").addEventListener("input", function (e) {
 });
 $("sl_b").addEventListener("change", function (e) { applyBudget(+e.target.value); });
 
-/* ================= 初始化 ================= */
-$("ck_mono").checked = false; monoOn = true;   // 显式复位，规避表单状态恢复的竞态
-renderGrid();
-s2.t1 = BEST.tau[0]; s2.t2 = BEST.tau[1];
-$("sl_t1").value = s2.t1; $("sl_t2").value = s2.t2; $("sl_t2b").value = s2.t2;
-s4.u1 = BEST.u1; s4.u2 = BEST.u2;
-$("sl_u1").value = s4.u1; $("sl_u2").value = s4.u2;
-$("sl_it").max = NMLOG().length - 1;
+/* ================= 初始化 / 复位 ================= */
+function resetToDefaultView() {
+  $("ck_mono").checked = false; monoOn = true;   // 代码忠实模式为默认
+  renderGrid();
+  s2.t1 = BEST.tau[0]; s2.t2 = BEST.tau[1];
+  $("sl_t1").value = s2.t1; $("sl_t2").value = s2.t2; $("sl_t2b").value = s2.t2;
+  s4.u1 = BEST.u1; s4.u2 = BEST.u2;
+  $("sl_u1").value = s4.u1; $("sl_u2").value = s4.u2;
+  $("sl_b").value = BUDGET;
+  $("v_b").textContent = BUDGET.toFixed(4); $("sym_b").textContent = BUDGET.toFixed(4);
+  stopPlay();
+  $("sl_it").max = NMLOG().length - 1; nmGoto(0);
+  renderStep2(); renderStep3(); renderStep4(); renderStep7();
+}
+resetToDefaultView();
 
-renderStep2();
-renderStep3();
-renderStep4();
-nmGoto(0);
-
-// KaTeX 渲染（CDN 可用时）
+// KaTeX 渲染 + 复位（autocomplete=off 已禁用表单恢复；延迟复位兜底，用户已交互则跳过）
+let userTouched = false;
+document.addEventListener("input", () => { userTouched = true; }, true);
+document.addEventListener("change", () => { userTouched = true; }, true);
 window.addEventListener("load", function () {
+  resetToDefaultView();
   typesetMath(document.body);
+  setTimeout(function () { if (!userTouched) resetToDefaultView(); }, 350);
 });
 </script>
 </body>
